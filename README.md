@@ -34,6 +34,11 @@
   - [Ejecutamos json-server desde nuestro directorio base](#ejecutamos-json-server-desde-nuestro-directorio-base)
   - [Visualizamos la ruta en nuestro navegador](#visualizamos-la-ruta-en-nuestro-navegador)
   - [Realizamos un commit](#realizamos-un-commit-4)
+- [Creacion de los environments](#creacion-de-los-environments)
+  - [Creamos ".env.development"](#creamos-envdevelopment)
+  - [Crear ".env.test"](#crear-envtest)
+  - [Crear ".env.production"](#crear-envproduction)
+  - [Realizar commit](#realizar-commit)
 
 
 # Generacion del proyecto en vite
@@ -490,7 +495,7 @@ npm i -g json-server@0.17.4
 
 ``` bash
 cd server
-json-server --watch db.json --routes routes.json
+json-server --watch db.json --routes routes.json -p 3000
 ```
 
 ![](resources/2024-04-24_21-02-41.png)
@@ -508,3 +513,39 @@ git commit -m "chore(server): added json-server configuration files."
 ```
 
 ![](resources/2024-04-24_20-51-38.png)
+
+# Creacion de los environments
+
+## Creamos ".env.development"
+
+``` bash
+VITE_API_BASE_URL="http://localhost:3000/api/v1"
+```
+
+![](resources/2024-04-24_21-07-16.png)
+
+## Crear ".env.test"
+
+``` bash
+VITE_API_BASE_URL="http://localhost:3000/api/v1"
+```
+
+![](resources/2024-04-24_21-07-25.png)
+
+## Crear ".env.production"
+
+``` bash
+VITE_API_BASE_URL="http://localhost:3000/api/v1"
+```
+
+![](resources/2024-04-24_21-07-33.png)
+
+## Realizar commit
+
+``` bash
+git add .
+git commit -m "chore: added environments to project."
+```
+
+
+
