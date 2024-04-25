@@ -27,6 +27,13 @@
   - [Actualizamos "src/app.vue"](#actualizamos-srcappvue-1)
   - [Realizamos un commit](#realizamos-un-commit-3)
 - [Instalación de json-server](#instalación-de-json-server)
+  - [Instalamos json-server](#instalamos-json-server)
+  - [Creamos "server/db.json"](#creamos-serverdbjson)
+  - [Creamos "server/routes.json"](#creamos-serverroutesjson)
+- [Ejecución de json-server](#ejecución-de-json-server)
+  - [Ejecutamos json-server desde nuestro directorio base](#ejecutamos-json-server-desde-nuestro-directorio-base)
+  - [Visualizamos la ruta en nuestro navegador](#visualizamos-la-ruta-en-nuestro-navegador)
+  - [Realizamos un commit](#realizamos-un-commit-4)
 
 
 # Generacion del proyecto en vite
@@ -408,3 +415,92 @@ git commit -m "feat(in-app-navigation): added in-app navigation initial routes."
 ![](resources/2024-04-24_20-39-19.png)
 
 # Instalación de json-server
+
+## Instalamos json-server
+
+``` bash
+npm i -g json-server@0.17.4
+```
+
+![](resources/2024-04-24_20-41-31.png)
+
+## Creamos "server/db.json"
+
+``` json
+{
+  "tutorials": [
+    {
+      "id": 1,
+      "title": "The Vue Tutorials",
+      "description": "The best tips and tutorials for Vue.",
+      "published": false,
+      "status": "Unpublished"
+    },
+    {
+      "id": 2,
+      "title": "Amazing Microsoft .NET",
+      "description": "Weekly tutorials about .NET and ASP.NET Core.",
+      "published": false
+    },
+    {
+      "id": 3,
+      "title": "JavaScript for All",
+      "description": "Tips and tricks about JavaScript from scratch.",
+      "published": false
+    },
+    {
+      "id": 4,
+      "title": "Vue Unleashed",
+      "description": "Vue at its best.",
+      "published": false
+    },
+    {
+      "id": 5,
+      "title": "ASP.NET Code Advanced",
+      "description": "What nobody tells you about ASP.NET Core.",
+      "published": true,
+      "status": "Published"
+    },
+    {
+      "id": 6,
+      "title": "The Vue Zone",
+      "description": "Incredible articles about Vue",
+      "published": false,
+      "status": "Unpublished"
+    }
+  ]
+}
+```
+
+![](resources/2024-04-24_20-42-37.png)
+
+## Creamos "server/routes.json"
+
+``` json
+{
+  "/api/v1/*": "/$1"
+}
+```
+
+![](resources/2024-04-24_20-43-49.png)
+
+# Ejecución de json-server
+
+## Ejecutamos json-server desde nuestro directorio base
+
+``` bash
+json-server --watch server/db.json --routes server/routes.json
+```
+
+![](resources/2024-04-24_20-45-49.png)
+
+## Visualizamos la ruta en nuestro navegador 
+
+![](resources/2024-04-24_20-50-10.png)
+
+## Realizamos un commit
+
+``` bash
+git add .
+git commit -m "chore(server): added json-server configuration files."
+```
