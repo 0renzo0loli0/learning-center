@@ -404,4 +404,7 @@ git add .
 git commit -m "feat(in-app-navigation): added in-app navigation initial routes."
 ```
 
+![](resources/2024-04-24_20-39-09.png)
+![](resources/2024-04-24_20-39-19.png)
+
 # Instalación de json-server

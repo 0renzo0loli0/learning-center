@@ -1,11 +1,13 @@
 <script>
 export default {
-  name: "page-not-found"
+  name: "home",
+  title: "Home"
 }
 </script>
 
 <template>
   <div class="w-full align-content-center">
-    <h1>Page Not Found</h1>
+    <h1>Home</h1>
+    <p>Welcome to ACME Learning Center.</p>
   </div>
 </template>
