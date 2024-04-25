@@ -48,6 +48,14 @@
 - [Creacion del servicio "Tutorials"](#creacion-del-servicio-tutorials)
   - [Crear "src/learning/services/tutorials-api.service.js"](#crear-srclearningservicestutorials-apiservicejs)
   - [Realizamos un commit](#realizamos-un-commit-8)
+- [Creación de componentes Tutorials, Tutorial Form](#creación-de-componentes-tutorials-tutorial-form)
+  - [Crear componente "src/learning/pages/tutorial-list.component.vue"](#crear-componente-srclearningpagestutorial-listcomponentvue)
+  - [Crear componente "src/learning/components/tutorial-item-create-and-edit-dialog.component.vue"](#crear-componente-srclearningcomponentstutorial-item-create-and-edit-dialogcomponentvue)
+  - [Crear componente "src/learning/components/tutorial-item-delete-confirmation-dialog.component.vue"](#crear-componente-srclearningcomponentstutorial-item-delete-confirmation-dialogcomponentvue)
+  - [Crear componente "src/learning/components/tutorial-subset-delete-confirmation-dialog.component.vue"](#crear-componente-srclearningcomponentstutorial-subset-delete-confirmation-dialogcomponentvue)
+  - [Actualizamos "src/router/index.js"](#actualizamos-srcrouterindexjs)
+  - [Actualizamos "src/app.vue"](#actualizamos-srcappvue-2)
+  - [Realizamos un commit](#realizamos-un-commit-9)
 
 
 # Generacion del proyecto en vite
@@ -730,4 +738,563 @@ export class TutorialsApiService {
 ``` bash
 git add .
 git commit -m "feat(tutorials): added tutorials service."
+```
+
+![](resources/2024-04-24_21-17-37.png)
+![](resources/2024-04-24_21-17-46.png)
+
+# Creación de componentes Tutorials, Tutorial Form
+
+## Crear componente "src/learning/pages/tutorial-list.component.vue"
+
+``` vue
+<script>
+import {TutorialsApiService} from "../services/tutorials-api.service.js";
+import {FilterMatchMode} from "primevue/api";
+import TutorialCatalogueItemDeleteConfirmationDialog
+  from "../components/tutorial-item-delete-confirmation-dialog.component.vue";
+import TutorialSubsetDeleteConfirmationDialog
+  from "../components/tutorial-subset-delete-confirmation-dialog.component.vue";
+import {Tutorial} from "../model/tutorial.entity.js";
+import TutorialItemCreateAndEditDialog from "../components/tutorial-item-create-and-edit-dialog.component.vue";
+
+export default {
+  name: "tutorial-list",
+  title: "Tutorials",
+  components: {
+    TutorialItemCreateAndEditDialog,
+    TutorialSubsetDeleteConfirmationDialog,
+    TutorialCatalogueItemDeleteConfirmationDialog
+  },
+  data() {
+    return {
+      title: "Tutorials",
+      tutorials: [],
+      tutorialDialog: false,
+      deleteTutorialDialog: false,
+      deleteTutorialsDialog: false,
+      tutorial: null,
+      selectedTutorials: null,
+      filters: {},
+      submitted: false,
+      statuses: [
+        {label: "Published", value: "published"},
+        {label: "Unpublished", value: "unpublished"},
+      ],
+      tutorialsService: null,
+    }
+  },
+  created() {
+    this.tutorialsService = new TutorialsApiService();
+    this.tutorialsService.getAll()
+        .then(response => {
+          this.tutorials = response.data;
+          this.tutorials = this.tutorials.map(tutorial => {
+            return Tutorial.toDisplayableTutorial(tutorial);
+          });
+        });
+    this.initFilters();
+  },
+
+  methods: {
+
+    //#region Helper Methods
+
+    notifySuccessfulAction(message) {
+      this.$toast.add({severity: "success", summary: "Success", detail: message, life: 3000,});
+    },
+
+    findIndexById(id) {
+      return this.tutorials.findIndex((tutorial) => tutorial.id === id);
+    },
+
+    initFilters() {
+      this.filters = {global: {value: null, matchMode: FilterMatchMode.CONTAINS}};
+    },
+
+    getSeverity(status) {
+      switch (status) {
+        case 'Published': return 'success';
+        case 'Unpublished': return 'info';
+        default:  return null;
+      }
+    },
+
+    //#endregion Helper Methods
+
+    //#region Event Handlers
+
+    onDeleteItemConfirm() {
+      this.deleteTutorial();
+    },
+
+    onDeleteItemCancel() {
+      this.deleteTutorialDialog = false;
+    },
+
+    onDeleteSubsetConfirm() {
+      this.deleteSelectedTutorials();
+    },
+
+    onDeleteSubsetCancel() {
+      this.deleteTutorialsDialog = false;
+    },
+
+    onNewItem() {
+      this.tutorial = {};
+      this.submitted = false;
+      this.tutorialDialog = true;
+    },
+
+    onAddOrUpdateItemCancel() {
+      this.tutorialDialog = false;
+      this.submitted = false;
+    },
+
+    onSaveItem() {
+      this.submitted = true;
+      if (this.tutorial.title.trim()) {
+        if (this.tutorial.id) {
+          this.updateTutorial();
+        } else {
+          this.createTutorial();
+        }
+        this.tutorialDialog = false;
+        this.tutorial = {};
+      }
+
+    },
+
+    onEditItemRequested(tutorial) {
+      this.tutorial = {...tutorial};
+      this.tutorialDialog = true;
+    },
+
+    onDeleteItemRequested(tutorial) {
+      this.tutorial = tutorial;
+      this.deleteTutorialDialog = true;
+    },
+
+    onExportRequested() {
+      this.$refs.dt.exportCSV();
+    },
+
+    onConfirmDeleteSelected() {
+      this.deleteTutorialsDialog = true;
+    },
+
+    //#endregion Event Handlers
+
+    //#region Data Actions
+
+    createTutorial() {
+      this.tutorial.id = 0;
+      this.tutorial = Tutorial.fromDisplayableTutorial(this.tutorial);
+      this.tutorialsService.create(this.tutorial)
+          .then((response) => {
+            this.tutorial = Tutorial.toDisplayableTutorial(response.data);
+            this.tutorials.push(this.tutorial);
+            this.notifySuccessfulAction("Tutorial Created");
+          });
+    },
+
+    updateTutorial() {
+      this.tutorial = Tutorial.fromDisplayableTutorial(this.tutorial);
+      this.tutorialsService
+          .update(this.tutorial.id, this.tutorial)
+          .then((response) => {
+            this.tutorials[this.findIndexById(response.data.id)] =
+                Tutorial.toDisplayableTutorial(response.data);
+            this.notifySuccessfulAction("Tutorial Updated");
+          });
+    },
+
+    deleteTutorial() {
+      this.tutorialsService.delete(this.tutorial.id)
+          .then(() => {
+            this.tutorials = this.tutorials.filter((t) => t.id !== this.tutorial.id);
+            this.deleteTutorialDialog = false;
+            this.tutorial = {};
+            this.notifySuccessfulAction("Tutorial Deleted");
+          });
+    },
+
+    deleteSelectedTutorials() {
+      this.selectedTutorials.forEach((tutorial) => {
+        this.tutorialsService.delete(tutorial.id).then(() => {
+          this.tutorials = this.tutorials.filter((t) => t.id !== this.tutorial.id);
+        });
+      });
+      this.deleteTutorialsDialog = false;
+      this.notifySuccessfulAction("Tutorials Deleted");
+    }
+
+    //#endregion Data Actions
+  },
+}
+</script>
+
+<template>
+  <div class="tutorials">
+    <div>
+      <!-- Toolbar Section -->
+      <pv-toolbar class="mb-4">
+        <template #start>
+          <pv-button class="mr-2" icon="pi pi-plus" label="New" severity="success" @click="onNewItem"/>
+          <pv-button :disabled="!selectedTutorials || !selectedTutorials.length"
+                     icon="pi pi-trash" label="Delete" severity="danger" @click="onConfirmDeleteSelected"/>
+        </template>
+        <template #end>
+          <pv-button icon="pi pi-download" label="Export" severity="help" @click="onExportRequested($event)"></pv-button>
+        </template>
+      </pv-toolbar>
+
+      <!-- Data Table Section -->
+      <pv-data-table ref="dt" v-model:selection="selectedTutorials"
+                     :filters="filters"
+                     :paginator="true"
+                     :rows="10"
+                     :rowsPerPageOptions="[5, 10, 25]"
+                     :value="tutorials"
+                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} tutorials"
+                     dataKey="id"
+                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+                     responsiveLayout="scroll">
+        <template #header>
+          <div class="table-header gap-2 align-items-center justify-content-between">
+            <h4 class="m-0">Manage Tutorials</h4>
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"/>&nbsp;
+              <pv-input-text v-model="filters['global'].value" placeholder="Search..."/>
+            </span>
+          </div>
+        </template>
+
+        <pv-column :exportable="false" selectionMode="multiple" style="width: 3rem"/>
+        <pv-column :sortable="true" field="id" header="Id" style="min-width: 12rem"/>
+        <pv-column :sortable="true" field="title" header="Title" style="min-width: 16rem"/>
+        <pv-column :sortable="true" field="description" header="Description" style="min-width: 16rem"/>
+        <pv-column :sortable="true" field="status" header="Status" style="min-width: 12rem">
+          <template #body="slotProps">
+            <pv-tag :severity="getSeverity(slotProps.data.status)" :value="slotProps.data.status"/>
+          </template>
+        </pv-column>
+        <pv-column :exportable="false" style="min-width: 8rem">
+          <template #body="slotProps">
+            <pv-button class="mr-2" icon="pi pi-pencil" outlined rounded @click="onEditItemRequested(slotProps.data)"></pv-button>
+            <pv-button icon="pi pi-trash" outlined rounded severity="danger" @click="onDeleteItemRequested(slotProps.data)"></pv-button>
+          </template>
+        </pv-column>
+      </pv-data-table>
+
+      <!-- Add/Edit Tutorial Dialog -->
+      <tutorial-item-create-and-edit-dialog :statuses="statuses" :tutorial="tutorial" v-bind:visible="tutorialDialog"
+                                          v-on:cancel="onAddOrUpdateItemCancel"
+                                          v-on:save="onSaveItem"/>
+
+      <!-- Delete Selected Tutorial Confirmation Dialog -->
+      <tutorial-catalogue-item-delete-confirmation-dialog :item="tutorial" v-bind:visible="deleteTutorialDialog"
+                                                          @cancel="onDeleteItemCancel"
+                                                          v-on:confirm="onDeleteItemConfirm"/>
+
+      <!-- Delete Selected Tutorials Confirmation Dialog -->
+      <tutorial-subset-delete-confirmation-dialog :subset="selectedTutorials" v-bind:visible="deleteTutorialsDialog"
+                                                  v-on:cancel="onDeleteSubsetCancel"
+                                                  v-on:confirm="onDeleteSubsetConfirm"/>
+
+    </div>
+  </div>
+</template>
+
+<style scoped>
+</style>
+```
+
+![](resources/2024-04-24_21-19-38.png)
+
+## Crear componente "src/learning/components/tutorial-item-create-and-edit-dialog.component.vue"
+
+``` vue
+<script>
+export default {
+  name: "tutorial-item-create-and-edit-dialog",
+  props: {
+    tutorial: null,
+    visible: Boolean,
+    statuses: Array,
+  },
+  data() {
+    return {
+      submitted: false,
+    }
+  },
+  methods: {
+    getSeverity(status) {
+      switch (status) {
+        case 'Published': return 'success';
+        case 'Unpublished': return 'info';
+        default: return null;
+      }
+    },
+
+    onCancel() {
+      this.$emit('cancel');
+    },
+
+    onSave() {
+      this.submitted = true;
+      if (this.tutorial.title) {
+        this.$emit('save', this.tutorial);
+      }
+    },
+
+  }
+
+}
+</script>
+
+<template>
+  <!-- Add/Edit Tutorial Dialog -->
+  <pv-dialog v-bind:visible="visible"
+             :modal="true"
+             :style="{width: '450px'}"
+             class="p-fluid"
+             header="Tutorial Information">
+    <div class="field mt-3">
+                  <span class="p-float-label">
+                      <pv-input-text v-model.trim="tutorial.title"
+                                     :class="{'p-invalid': submitted && !tutorial.title}"
+                                     autofocus
+                                     required="true"
+                                     type="text"/>
+                      <label for="title">Title</label>
+                      <small v-if="submitted && !tutorial.title" class="p-error">Title is required.</small></span>
+    </div>
+
+    <div class="field">
+                  <span class="p-float-label">
+                      <pv-input-text v-model.trim="tutorial.description"
+                                     cols="20"
+                                     required="false"
+                                     rows="2" type="text"/>
+                      <label for="description">Description</label>
+                  </span>
+    </div>
+
+    <div class="field">
+      <pv-dropdown id="published"
+                   v-model="tutorial.status"
+                   :options="statuses"
+                   optionLabel="label"
+                   placeholder="Select an Status">
+        <template #value="slotProps">
+          <div v-if="slotProps.value && slotProps.value.value">
+            <pv-tag :severity="getSeverity(slotProps.value.label)" :value="slotProps.value.value"/>
+          </div>
+          <div v-else-if="slotProps.value && !slotProps.value.value">
+            <pv-tag :severity="getSeverity(slotProps.value)" :value="slotProps.value"/>
+          </div>
+          <span v-else>{{ slotProps.placeholder }}</span>
+        </template>
+      </pv-dropdown>
+    </div>
+    <template #footer>
+      <pv-button label="Cancel" class="p-button-text" icon="pi pi-times" @click="onCancel"/>
+      <pv-button label="Save" class="p-button-text" icon="pi pi-check" @click="onSave"/>
+    </template>
+  </pv-dialog>
+</template>
+
+<style scoped>
+</style>
+```
+
+![](resources/2024-04-24_21-21-04.png)
+
+## Crear componente "src/learning/components/tutorial-item-delete-confirmation-dialog.component.vue"
+
+``` vue
+<script>
+export default {
+  name: "tutorial-item-delete-confirmation-dialog",
+  props: {
+    item: null,
+    visible: false,
+  },
+  methods: {
+    // User Interface Event Handlers
+    onCancel() {
+      this.$emit('cancel');
+    },
+
+    onConfirm() {
+      this.$emit('confirm', this.item);
+    },
+  }
+}
+</script>
+
+<template>
+  <!-- Delete Tutorial Confirmation Dialog -->
+  <pv-dialog v-bind:visible="visible" :modal="true" :style="{width: '450px'}" header="Confirm">
+    <div class="confirmation-content">
+      <i class="pi pi-exclamation-triangle p-mr-3" style="font-size: 2rem"/>
+      <span v-if="item">Are you sure you want to delete <b>{{ item.title }}</b>?</span>
+    </div>
+
+    <template #footer>
+      <pv-button label="No" class="p-button-text" icon="pi pi-times" @click="onCancel"/>
+      <pv-button label="Yes" class="p-button-text" icon="pi pi-check" @click="onConfirm"/>
+    </template>
+  </pv-dialog>
+</template>
+
+<style scoped>
+.confirmation-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+</style>
+```
+
+![](resources/2024-04-24_21-23-36.png)
+
+## Crear componente "src/learning/components/tutorial-subset-delete-confirmation-dialog.component.vue"
+
+``` vue
+<script>
+export default {
+  name: "tutorial-subset-delete-confirmation-dialog",
+  props: {
+    subset: Array,
+    visible: Boolean,
+  },
+  methods: {
+    onConfirm() {
+      this.$emit('confirm', this.subset);
+    },
+
+    onCancel() {
+      this.$emit('cancel');
+    },
+  }
+}
+</script>
+
+<template>
+  <!-- Delete Selected Tutorials Confirmation Dialog -->
+  <pv-dialog v-bind:visible="visible" :modal="true" :style="{width: '450px'}" header="Confirm">
+    <div class="confirmation-content">
+      <i class="pi pi-exclamation-triangle p-mr-3" style="font-size: 2rem"/>
+      <span v-if="subset">Are you sure you want to delete the selected tutorials?</span>
+    </div>
+
+    <template #footer>
+      <pv-button label="No" class="p-button-text" icon="pi pi-times" @click="onCancel"/>
+      <pv-button label="Yes" class="p-button-text" icon="pi pi-check" @click="onConfirm"/>
+    </template>
+  </pv-dialog>
+</template>
+
+<style scoped>
+.confirmation-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>
+```
+
+![](resources/2024-04-24_21-24-55.png)
+
+## Actualizamos "src/router/index.js"
+
+``` js
+import {createRouter, createWebHistory} from "vue-router";
+import HomeComponent from "../public/pages/home.component.vue";
+import AboutComponent from "../public/pages/about.component.vue";
+import PageNotFoundComponent from "../public/pages/page-not-found.component.vue";
+import TutorialListComponent from "../learning/pages/tutorial-list.component.vue";
+
+const router = createRouter({
+    history: createWebHistory(),
+    routes: [
+        { path: '/home', component: HomeComponent, meta: { title: 'Home' }, },
+        { path: '/about', component: AboutComponent, meta: { title: 'About us' }, },
+        { path: '/tutorials', component: TutorialListComponent, meta: { title: 'Tutorials' } },
+        { path: '/:pathMatch(.*)*', component: PageNotFoundComponent },
+        { path: '/', redirect: '/home' }
+    ]
+});
+
+router.beforeEach((to, from, next) => {
+    let baseTitle = 'ACME Learning Center';
+    document.title = `${ baseTitle } | ${to.meta["title"]}`;
+    next();
+});
+export default router;
+```
+
+## Actualizamos "src/app.vue"
+
+``` vue
+<script>
+export default {
+  name: "app",
+  title: "ACME Learning Center",
+
+  data() {
+    return {
+      drawer: false,
+      items: [
+        {label: 'Home', to: '/home'},
+        {label: 'About', to: '/about'},
+        {label: 'Tutorials', to: '/tutorials'},
+      ]
+    }
+  },
+  methods: {
+    toggleDrawer() {
+      this.drawer = !this.drawer;
+    },
+
+  }
+}
+</script>
+
+<template>
+  <pv-toast></pv-toast>
+  <header>
+    <pv-toolbar class="bg-primary" fixed>
+      <template #start>
+        <pv-button class="p-button-text text-white" icon="pi pi-bars" @click="toggleDrawer()"></pv-button>
+        <h3>ACME Learning Center</h3>
+
+        <div class="flex-column">
+          <router-link v-for="item in items" :key="item.label" v-slot="{ navigate, href}" :to="item.to" custom>
+            <pv-button :href="href" class="p-button-text text-white" @click="navigate">
+              {{ item.label }}
+            </pv-button>
+          </router-link>
+        </div>
+      </template>
+    </pv-toolbar>
+  </header>
+  <pv-sidebar v-model:visible="drawer"></pv-sidebar>
+  <router-view></router-view>
+</template>
+
+<style scoped>
+</style>
+```
+
+![](resources/2024-04-24_21-26-32.png)
+
+## Realizamos un commit
+
+``` bash
+git add .
+git commit -m "feat(tutorials): added tutorials and tutorial form components."
 ```
