@@ -1,3 +1,6 @@
+<img src="https://media.dev.to/cdn-cgi/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fi%2Fi0tgmgk76qyfha15i4qv.png"
+  width="100%" height=300/>
+
 - [Generacion del proyecto en vite](#generacion-del-proyecto-en-vite)
   - [Abrimos el proyecto](#abrimos-el-proyecto)
   - [Instalamos la base de vite/vue](#instalamos-la-base-de-vitevue)
