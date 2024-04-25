@@ -12,7 +12,8 @@
   - [Inicializamos git](#inicializamos-git)
 - [Limpieza del proyecto](#limpieza-del-proyecto)
   - [Eliminamos "public/vite.svg"](#eliminamos-publicvitesvg)
-  - [Añadimos "public/acme-logo.svg"](#añadimos-publicacme-logosvg)
+  - [Descargamos el logo "public/acme-logo.svg"](#descargamos-el-logo-publicacme-logosvg)
+  - [Descargamos y posicionamos en "public/acme-logo.svg"](#descargamos-y-posicionamos-en-publicacme-logosvg)
   - [Actualizamos "index.html"](#actualizamos-indexhtml)
   - [Renombramos "src/App.vue"](#renombramos-srcappvue)
   - [Actualizamos "src/app.vue"](#actualizamos-srcappvue)
@@ -138,13 +139,12 @@ git init
 rm public/vite.svg
 ```
 
-## Añadimos "public/acme-logo.svg"
+## Descargamos el logo "public/acme-logo.svg"
 
-``` bash
-curl https://raw.githubusercontent.com/upc-pre-202401-si730-sw56/learning-center-main/main/public/acme-logo.svg?token=GHSAT0AAAAAACQM67FG4RVQKC644WL7GJYSZRJU3FQ -o public/acme-logo.svg
-```
+## Descargamos y posicionamos en "public/acme-logo.svg"
+- link: https://github.com/upc-pre-202401-si730-sw56/learning-center-main/blob/main/public/acme-logo.svg
 
-![](resources/2024-04-24_20-15-39.png)
+![](resources/2024-04-24_21-40-13.png)
 
 ## Actualizamos "index.html"
 
@@ -1378,6 +1378,9 @@ git commit -m "feat(tutorials): added tutorials and tutorial form components."
 git add .
 git commit -m "docs: updated documentation."
 ``` 
+
+![](resources/2024-04-24_21-35-35.png)
+![](resources/2024-04-24_21-35-48.png)
 
 # Anexos
 
