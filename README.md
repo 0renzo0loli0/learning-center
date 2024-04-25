@@ -5,7 +5,6 @@
   - [Summary](#summary)
   - [Features](#features)
   - [Dependencies](#dependencies)
-  - [Mock API Start](#mock-api-start)
 - [Generacion del proyecto en vite](#generacion-del-proyecto-en-vite)
   - [Abrimos el proyecto](#abrimos-el-proyecto)
   - [Instalamos la base de vite/vue](#instalamos-la-base-de-vitevue)
@@ -89,13 +88,6 @@ ACME Learning Center Application, illustrating REST client with axios on a simul
 - PrimeVue
 - Vue Router
 - json-server
-
-## Mock API Start
-Write the following commands in the terminal to start the mock API server.
-```bash
-cd server
-json-server --watch db.json --routes routes.json
-```
 
 # Generacion del proyecto en vite
 
