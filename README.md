@@ -36,9 +36,12 @@
   - [Realizamos un commit](#realizamos-un-commit-4)
 - [Creacion de los environments](#creacion-de-los-environments)
   - [Creamos ".env.development"](#creamos-envdevelopment)
-  - [Crear ".env.test"](#crear-envtest)
-  - [Crear ".env.production"](#crear-envproduction)
-  - [Realizar commit](#realizar-commit)
+  - [Creamos ".env.test"](#creamos-envtest)
+  - [Creamos ".env.production"](#creamos-envproduction)
+  - [Realizamos un commit](#realizamos-un-commit-5)
+- [Creacion de instancia axios](#creacion-de-instancia-axios)
+  - [Crear "src/shared/services/http-common.js"](#crear-srcsharedserviceshttp-commonjs)
+  - [Realizamos un commit](#realizamos-un-commit-6)
 
 
 # Generacion del proyecto en vite
@@ -524,7 +527,7 @@ VITE_API_BASE_URL="http://localhost:3000/api/v1"
 
 ![](resources/2024-04-24_21-07-16.png)
 
-## Crear ".env.test"
+## Creamos ".env.test"
 
 ``` bash
 VITE_API_BASE_URL="http://localhost:3000/api/v1"
@@ -532,7 +535,7 @@ VITE_API_BASE_URL="http://localhost:3000/api/v1"
 
 ![](resources/2024-04-24_21-07-25.png)
 
-## Crear ".env.production"
+## Creamos ".env.production"
 
 ``` bash
 VITE_API_BASE_URL="http://localhost:3000/api/v1"
@@ -540,12 +543,46 @@ VITE_API_BASE_URL="http://localhost:3000/api/v1"
 
 ![](resources/2024-04-24_21-07-33.png)
 
-## Realizar commit
+## Realizamos un commit
 
 ``` bash
 git add .
 git commit -m "chore: added environments to project."
 ```
 
+![](resources/2024-04-24_21-08-37.png)
+![](resources/2024-04-24_21-09-03.png)
 
+# Creacion de instancia axios
 
+## Crear "src/shared/services/http-common.js"
+
+``` js
+/**  axios default configs */
+import axios from "axios";
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+/**
+ * Axios instance
+ * @summary http axios instance creation with default configs
+ * @type {AxiosInstance}
+ *
+ */
+
+const http = axios.create({
+    baseURL: API_BASE_URL,
+    headers: { 'Content-type': 'application/json' }
+});
+
+export default http;
+```
+
+![](resources/2024-04-24_21-11-32.png)
+
+## Realizamos un commit
+
+``` bash
+git add .
+git commit -m "feat(acme-service-client): added axios common instance with default configuration."
+```
