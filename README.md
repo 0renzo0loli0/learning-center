@@ -1,6 +1,11 @@
 <img src="https://media.dev.to/cdn-cgi/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fi%2Fi0tgmgk76qyfha15i4qv.png"
   width="100%" height=300/>
 
+- [ACME Learning Center Web Application](#acme-learning-center-web-application)
+  - [Summary](#summary)
+  - [Features](#features)
+  - [Dependencies](#dependencies)
+  - [Mock API Start](#mock-api-start)
 - [Generacion del proyecto en vite](#generacion-del-proyecto-en-vite)
   - [Abrimos el proyecto](#abrimos-el-proyecto)
   - [Instalamos la base de vite/vue](#instalamos-la-base-de-vitevue)
@@ -56,7 +61,40 @@
   - [Actualizamos "src/router/index.js"](#actualizamos-srcrouterindexjs)
   - [Actualizamos "src/app.vue"](#actualizamos-srcappvue-2)
   - [Realizamos un commit](#realizamos-un-commit-9)
+- [Actualizamos el "README.md"](#actualizamos-el-readmemd)
+  - [Actualizamos "README.md"](#actualizamos-readmemd)
+  - [Realizamos un commit](#realizamos-un-commit-10)
+- [Anexos](#anexos)
+  - [Home](#home)
+  - [About](#about)
+  - [Page Not Found](#page-not-found)
+  - [Tutorials](#tutorials)
 
+# ACME Learning Center Web Application
+
+## Summary
+ACME Learning Center Application, illustrating REST client with axios on a simulated API with json-server, using Vue Framework and PrimeVue UI Component Library. The application also shows how to support in-app navigation routing.
+
+## Features
+- REST client with axios
+- Simulated API with json-server
+- PrimeVue UI Component Library
+- In-app navigation routing
+- Reusable components
+
+## Dependencies
+- Vue
+- Axios
+- PrimeVue
+- Vue Router
+- json-server
+
+## Mock API Start
+Write the following commands in the terminal to start the mock API server.
+```bash
+cd server
+json-server --watch db.json --routes routes.json
+```
 
 # Generacion del proyecto en vite
 
@@ -1298,3 +1336,63 @@ export default {
 git add .
 git commit -m "feat(tutorials): added tutorials and tutorial form components."
 ```
+
+![](resources/2024-04-24_21-27-18.png)
+![](resources/2024-04-24_21-27-33.png)
+
+# Actualizamos el "README.md"
+
+## Actualizamos "README.md"
+
+``` markdown
+    # ACME Learning Center Web Application
+
+    ## Summary
+    ACME Learning Center Application, illustrating REST client with axios on a simulated API with json-server, using Vue Framework and PrimeVue UI Component Library. The application also shows how to support in-app navigation routing.
+
+    ## Features
+    - REST client with axios
+    - Simulated API with json-server
+    - PrimeVue UI Component Library
+    - In-app navigation routing
+    - Reusable components
+
+    ## Dependencies
+    - Vue
+    - Axios
+    - PrimeVue
+    - Vue Router
+    - json-server
+
+    ## Mock API Start
+    Write the following commands in the terminal to start the mock API server.
+    ```bash
+    cd server
+    json-server --watch db.json --routes routes.json
+    ```
+```
+
+## Realizamos un commit
+
+``` bash
+git add .
+git commit -m "docs: updated documentation."
+``` 
+
+# Anexos
+
+## Home
+
+![](resources/2024-04-24_21-33-33.png)
+
+## About
+
+![](resources/2024-04-24_21-33-52.png)
+
+## Page Not Found
+
+![](resources/2024-04-24_21-34-12.png)
+
+## Tutorials
+
+![](resources/2024-04-24_21-34-22.png)
