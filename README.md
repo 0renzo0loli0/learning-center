@@ -489,9 +489,11 @@ npm i -g json-server@0.17.4
 ## Ejecutamos json-server desde nuestro directorio base
 
 ``` bash
-json-server --watch server/db.json --routes server/routes.json
+cd server
+json-server --watch db.json --routes routes.json
 ```
 
+![](resources/2024-04-24_21-02-41.png)
 ![](resources/2024-04-24_20-45-49.png)
 
 ## Visualizamos la ruta en nuestro navegador 
@@ -504,3 +506,5 @@ json-server --watch server/db.json --routes server/routes.json
 git add .
 git commit -m "chore(server): added json-server configuration files."
 ```
+
+![](resources/2024-04-24_20-51-38.png)
