@@ -42,6 +42,9 @@
 - [Creacion de instancia axios](#creacion-de-instancia-axios)
   - [Crear "src/shared/services/http-common.js"](#crear-srcsharedserviceshttp-commonjs)
   - [Realizamos un commit](#realizamos-un-commit-6)
+- [Crearcion de entitdad "Tutorial"](#crearcion-de-entitdad-tutorial)
+  - [Crear "src/learning/model/tutorial.entity.js"](#crear-srclearningmodeltutorialentityjs)
+  - [Realizamos un commit](#realizamos-un-commit-7)
 
 
 # Generacion del proyecto en vite
@@ -585,4 +588,62 @@ export default http;
 ``` bash
 git add .
 git commit -m "feat(acme-service-client): added axios common instance with default configuration."
+```
+
+![](resources/2024-04-24_21-12-04.png)
+![](resources/2024-04-24_21-12-20.png)
+
+# Crearcion de entitdad "Tutorial"
+
+## Crear "src/learning/model/tutorial.entity.js"
+
+``` js
+/**
+ * Tutorial
+ * @description Tutorial entity
+ */
+export class Tutorial {
+    constructor(id, title, description, published) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.published = published;
+        this.status = this.published === true ? 'Published' : 'Unpublished';
+    }
+
+    /**
+     * Create a new Tutorial instance from a displayableTutorial
+     * @param displayableTutorial - The displayableTutorial to create the Tutorial from
+     * @returns {Tutorial}
+     */
+    static fromDisplayableTutorial(displayableTutorial) {
+        return new Tutorial(
+            displayableTutorial.id,
+            displayableTutorial.title,
+            displayableTutorial.description,
+            displayableTutorial.status.label === 'Published');
+    }
+
+    /**
+     * Convert a tutorial to a displayable tutorial
+     * @param tutorial - The tutorial to convert
+     * @returns {{description: *, id, title, status: (string)}}
+     */
+    static toDisplayableTutorial(tutorial) {
+        return {
+            id: tutorial.id,
+            title: tutorial.title,
+            description: tutorial.description,
+            status: tutorial.published === true ? 'Published' : 'Unpublished'
+        };
+    }
+
+}
+```
+
+## Realizamos un commit
+
+``` bash
+git add .
+git commit -m "feat(tutorials): added tutorial entity."
 ```
