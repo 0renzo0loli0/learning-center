@@ -1,3 +1,28 @@
+- [Generacion del proyecto en vite](#generacion-del-proyecto-en-vite)
+  - [Abrimos el proyecto](#abrimos-el-proyecto)
+  - [Instalamos la base de vite/vue](#instalamos-la-base-de-vitevue)
+  - [Inicializamos git](#inicializamos-git)
+- [Limpieza del proyecto](#limpieza-del-proyecto)
+  - [Eliminamos "public/vite.svg"](#eliminamos-publicvitesvg)
+  - [Añadimos "public/acme-logo.svg"](#añadimos-publicacme-logosvg)
+  - [Actualizamos "index.html"](#actualizamos-indexhtml)
+  - [Renombramos "src/App.vue"](#renombramos-srcappvue)
+  - [Actualizamos "src/app.vue"](#actualizamos-srcappvue)
+  - [Eliminamos el contenido de "src/styles.css"](#eliminamos-el-contenido-de-srcstylescss)
+  - [Eliminamos "src/components/" y "src/assets/"](#eliminamos-srccomponents-y-srcassets)
+  - [Realizamos un commit](#realizamos-un-commit)
+- [Instalacion de dependencias](#instalacion-de-dependencias)
+  - [Instalamos las dependencias base de nuestro proyecto](#instalamos-las-dependencias-base-de-nuestro-proyecto)
+  - [Realizamos un commit](#realizamos-un-commit-1)
+- [Creacion de componentes publicos (Options API)](#creacion-de-componentes-publicos-options-api)
+  - [Creamos componente "src/public/pages/home.component.vue"](#creamos-componente-srcpublicpageshomecomponentvue)
+  - [Creamos componente src/public/pages/about.component.vue](#creamos-componente-srcpublicpagesaboutcomponentvue)
+  - [Creamos componente src/public/pages/page-not-found.component.vue](#creamos-componente-srcpublicpagespage-not-foundcomponentvue)
+  - [Realizamos un commit](#realizamos-un-commit-2)
+- [Creacion de rutas](#creacion-de-rutas)
+  - [Creamos el archivo "src/router.index.js"](#creamos-el-archivo-srcrouterindexjs)
+
+
 # Generacion del proyecto en vite
 
 ``` bash
@@ -12,6 +37,8 @@ npm create vite@latest
 cd learning-center
 code .
 ```
+
+![](resources/2024-04-24_20-16-12.png)
 
 ## Instalamos la base de vite/vue
 
@@ -44,6 +71,8 @@ rm public/vite.svg
 curl https://raw.githubusercontent.com/upc-pre-202401-si730-sw56/learning-center-main/main/public/acme-logo.svg?token=GHSAT0AAAAAACQM67FG4RVQKC644WL7GJYSZRJU3FQ -o public/acme-logo.svg
 ```
 
+![](resources/2024-04-24_20-15-39.png)
+
 ## Actualizamos "index.html"
 
 ``` html
@@ -62,6 +91,8 @@ curl https://raw.githubusercontent.com/upc-pre-202401-si730-sw56/learning-center
   </body>
 </html>
 ```
+
+![](resources/2024-04-24_20-12-11.png)
 
 ## Renombramos "src/App.vue"
 
