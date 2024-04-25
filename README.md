@@ -11,7 +11,6 @@
   - [Actualizamos "index.html"](#actualizamos-indexhtml)
   - [Renombramos "src/App.vue"](#renombramos-srcappvue)
   - [Actualizamos "src/app.vue"](#actualizamos-srcappvue)
-  - [Eliminamos el contenido de "src/styles.css"](#eliminamos-el-contenido-de-srcstylescss)
   - [Eliminamos "src/components/" y "src/assets/"](#eliminamos-srccomponents-y-srcassets)
   - [Realizamos un commit](#realizamos-un-commit)
 - [Instalacion de dependencias](#instalacion-de-dependencias)
@@ -24,6 +23,10 @@
   - [Realizamos un commit](#realizamos-un-commit-2)
 - [Creacion de rutas](#creacion-de-rutas)
   - [Creamos el archivo "src/router.index.js"](#creamos-el-archivo-srcrouterindexjs)
+  - [Actualizamos "src/main.js"](#actualizamos-srcmainjs)
+  - [Actualizamos "src/app.vue"](#actualizamos-srcappvue-1)
+  - [Realizamos un commit](#realizamos-un-commit-3)
+- [Instalación de json-server](#instalación-de-json-server)
 
 
 # Generacion del proyecto en vite
@@ -116,9 +119,7 @@ mv src/App.vue src/app.vue
 </style>
 ```
 
-## Eliminamos el contenido de "src/styles.css"
-
-![](resources/2024-04-24_19-46-31.png)
+![](resources/2024-04-24_20-23-32.png)
 
 ## Eliminamos "src/components/" y "src/assets/"
 
@@ -232,7 +233,7 @@ git commit -m "feat: added public components."
 
 ## Creamos el archivo "src/router.index.js"
 
-``` javascript
+``` js
 import {createRouter, createWebHistory} from "vue-router";
 import HomeComponent from "../public/pages/home.component.vue";
 import AboutComponent from "../public/pages/about.component.vue";
@@ -255,3 +256,152 @@ router.beforeEach((to, from, next) => {
 });
 export default router;
 ```
+
+![](resources/2024-04-24_20-27-52.png)
+
+## Actualizamos "src/main.js"
+
+``` js
+import { createApp } from 'vue'
+import './style.css'
+import App from './app.vue'
+
+// Import router
+import router from "./router/index.js";
+
+// PrimeVue
+import PrimeVue from 'primevue/config';
+
+// PrimeVue CSS
+import 'primeflex/primeflex.css';
+
+// PrimeVue Icons
+import 'primeicons/primeicons.css';
+
+// PrimeVue Material Design Theme
+import 'primevue/resources/themes/mdc-light-indigo/theme.css';
+
+// PrimeVue Services
+import ToastService         from 'primevue/toastservice';
+import ConfirmationService  from "primevue/confirmationservice";
+import DialogService        from "primevue/dialogservice";
+
+// PrimeVue Components
+import DataTable        from "primevue/datatable";
+import Column           from "primevue/column";
+import ConfirmDialog    from "primevue/confirmdialog";
+import Row              from "primevue/row";
+import Toolbar          from "primevue/toolbar";
+import InputText        from "primevue/inputtext";
+import Textarea         from "primevue/textarea";
+import Button           from "primevue/button";
+import Sidebar          from "primevue/sidebar";
+import Menu             from "primevue/menu";
+import Dialog           from "primevue/dialog";
+import Toast            from "primevue/toast";
+import Dropdown         from "primevue/dropdown";
+import Tag              from "primevue/tag";
+import Card             from "primevue/card";
+import FileUpload       from "primevue/fileupload";
+import IconField        from "primevue/iconfield";
+import InputIcon        from "primevue/inputicon";
+import InputNumber      from "primevue/inputnumber";
+import FloatLabel       from "primevue/floatlabel";
+import Checkbox         from "primevue/checkbox";
+import Rating           from "primevue/rating";
+
+createApp(App)
+    .use(router)
+    .use(PrimeVue, { ripple: true })
+    .use(DialogService)
+    .use(ConfirmationService)
+    .use(ToastService)
+    .component('pv-button',         Button)
+    .component('pv-card',           Card)
+    .component('pv-column',         Column)
+    .component('pv-confirm-dialog', ConfirmDialog)
+    .component('pv-checkbox',       Checkbox)
+    .component('pv-data-table',     DataTable)
+    .component('pv-dialog',         Dialog)
+    .component('pv-dropdown',       Dropdown)
+    .component('pv-file-upload',    FileUpload)
+    .component('pv-float-label',    FloatLabel)
+    .component('pv-icon-field',     IconField)
+    .component('pv-input-icon',     InputIcon)
+    .component('pv-input-text',     InputText)
+    .component('pv-input-number',   InputNumber)
+    .component('pv-menu',           Menu)
+    .component('pv-rating',         Rating)
+    .component('pv-row',            Row)
+    .component('pv-sidebar',        Sidebar)
+    .component('pv-tag',            Tag)
+    .component('pv-textarea',       Textarea)
+    .component('pv-toolbar',        Toolbar)
+    .component('pv-toast',          Toast)
+    .mount('#app')
+```
+
+![](resources/2024-04-24_20-28-55.png)
+
+## Actualizamos "src/app.vue"
+
+``` vue
+<script>
+export default {
+  name: "app",
+  title: "ACME Learning Center",
+
+  data() {
+    return {
+      drawer: false,
+      items: [
+        {label: 'Home', to: '/home'},
+        {label: 'About', to: '/about'},
+      ]
+    }
+  },
+  methods: {
+    toggleDrawer() {
+      this.drawer = !this.drawer;
+    },
+
+  }
+}
+</script>
+
+<template>
+  <pv-toast></pv-toast>
+  <header>
+    <pv-toolbar class="bg-primary" fixed>
+      <template #start>
+        <pv-button class="p-button-text text-white" icon="pi pi-bars" @click="toggleDrawer()"></pv-button>
+        <h3>ACME Learning Center</h3>
+
+        <div class="flex-column">
+          <router-link v-for="item in items" :key="item.label" v-slot="{ navigate, href}" :to="item.to" custom>
+            <pv-button :href="href" class="p-button-text text-white" @click="navigate">
+              {{ item.label }}
+            </pv-button>
+          </router-link>
+        </div>
+      </template>
+    </pv-toolbar>
+  </header>
+  <pv-sidebar v-model:visible="drawer"></pv-sidebar>
+  <router-view></router-view>
+</template>
+
+<style scoped>
+</style>
+```
+
+![](resources/2024-04-24_20-30-44.png)
+
+## Realizamos un commit
+
+``` bash
+git add .
+git commit -m "feat(in-app-navigation): added in-app navigation initial routes."
+```
+
+# Instalación de json-server
