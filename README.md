@@ -45,6 +45,9 @@
 - [Crearcion de entitdad "Tutorial"](#crearcion-de-entitdad-tutorial)
   - [Crear "src/learning/model/tutorial.entity.js"](#crear-srclearningmodeltutorialentityjs)
   - [Realizamos un commit](#realizamos-un-commit-7)
+- [Creacion del servicio "Tutorials"](#creacion-del-servicio-tutorials)
+  - [Crear "src/learning/services/tutorials-api.service.js"](#crear-srclearningservicestutorials-apiservicejs)
+  - [Realizamos un commit](#realizamos-un-commit-8)
 
 
 # Generacion del proyecto en vite
@@ -646,4 +649,85 @@ export class Tutorial {
 ``` bash
 git add .
 git commit -m "feat(tutorials): added tutorial entity."
+```
+
+![](resources/2024-04-24_21-14-23.png)
+![](resources/2024-04-24_21-14-54.png)
+
+# Creacion del servicio "Tutorials"
+
+## Crear "src/learning/services/tutorials-api.service.js"
+
+``` js
+import http from "../../shared/services/http-common.js";
+
+/**
+ * TutorialsApiService class
+ * @description Service class for making HTTP requests to the API
+ */
+
+export class TutorialsApiService {
+    /**
+     * Get all tutorials
+     * @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    getAll() {
+        return http.get('/tutorials');
+    }
+
+    /**
+     * Get tutorial by id
+     * @param id
+     * @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    getById(id) {
+        return http.get(`/tutorials/${id}`);
+    }
+
+    /**
+     * Create a new tutorial
+     * @param tutorialResource - tutorial object to create
+     * @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    create(tutorialResource) {
+        return http.post('/tutorials', tutorialResource);
+    }
+
+    /**
+     * Update a tutorial
+     * @param id - tutorial id to update
+     * @param tutorialResource - tutorial object with data
+     * @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    update(id, tutorialResource) {
+        return http.put(`/tutorials/${id}`, tutorialResource);
+    }
+
+    /**
+     * Delete a tutorial
+     * @param id - tutorial id to delete
+     * @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    delete(id) {
+        return http.delete(`/tutorials/${id}`);
+    }
+
+    /**
+     * Delete all tutorials that match the given title
+     * @param title - tutorial title to apply as criteria
+     * @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    findByTitle(title) {
+        return http.get(`/tutorials?title=${title}`);
+    }
+}
+```
+
+![](resources/2024-04-24_21-16-52.png)
+
+## Realizamos un commit
+
+``` bash
+git add .
+git commit -m "feat(tutorials): added tutorials service."
 ```
