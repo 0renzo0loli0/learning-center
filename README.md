@@ -86,6 +86,7 @@
   - [Realizamos el deploy](#realizamos-el-deploy)
   - [Actualizamos nuestro ".gitignore" para firebase](#actualizamos-nuestro-gitignore-para-firebase)
   - [Realizamos un commit](#realizamos-un-commit-12)
+  - [Visualizamos nuestro deploy](#visualizamos-nuestro-deploy)
 - [Anexos](#anexos)
   - [Home](#home)
   - [About](#about)
@@ -1598,6 +1599,16 @@ firebase deploy --only hosting
 ![](resources/2024-04-26_20-48-54.png)
 
 ## Realizamos un commit
+
+```bash
+git add .
+git commit -m "feat(gitignore): updated gitignore for firebase"
+```
+![](resources/2024-04-26_20-50-07.png)
+
+## Visualizamos nuestro deploy
+
+[Deploy](https://learningcentersi730.web.app/home)
 
 # Anexos
 
