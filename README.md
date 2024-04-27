@@ -1419,7 +1419,7 @@ git commit -m "docs: updated documentation."
 ## Tengamos en cuenta el nombre del usuario y del repo
 
 **Ejemplo: ** 0renzo0loli0/learning-center-db
--- Este sera el url para los proximos pasos
+- Este sera el url para los proximos pasos
 
 ## Generamos el url para desplegar nuestra base de datos
 
@@ -1430,8 +1430,8 @@ git commit -m "docs: updated documentation."
 ![](resources/2024-04-26_19-55-40.png)
 
 
--- Como se ve tenemos nuetro link para la base de datos completa "db"
--- y para el "tutorials"
+- Como se ve tenemos nuetro link para la base de datos completa "db"
+- y para el "tutorials"
 
 ![](resources/2024-04-26_19-56-42.png)
 
@@ -1502,11 +1502,11 @@ firebase login
 
 ![](resources/2024-04-26_20-14-07.png)
 
--- De preferencia escribimos "n" cuando nos consulte recopilar informacion
+- De preferencia escribimos "n" cuando nos consulte recopilar informacion
 
 ![](resources/2024-04-26_20-15-11.png)
 
--- Validamos nuestro usuario y concedemos los permisos
+- Validamos nuestro usuario y concedemos los permisos
 
 1) Elegimos nuestra cuenta cuando abra nuestro navegador 
 2) Le damos continuar 
@@ -1589,7 +1589,7 @@ firebase deploy --only hosting
 
 ## Actualizamos nuestro ".gitignore" para firebase
 
--- Añadimos el siguiente codigo
+- Añadimos el siguiente codigo
 
 ```bash
 # Firebase cache
