@@ -1418,14 +1418,14 @@ git commit -m "docs: updated documentation."
 
 ## Tengamos en cuenta el nombre del usuario y del repo
 
-**Ejemplo: ** 0renzo0loli0/learning-center-db
+- **Ejemplo:** 0renzo0loli0/learning-center-db
 - Este sera el url para los proximos pasos
 
 ## Generamos el url para desplegar nuestra base de datos
 
-** base: ** https://my-json-server.typicode.com/
-** data: ** 0renzo0loli0/learning-center-db
-** URL: **  https://my-json-server.typicode.com/0renzo0loli0/learning-center-db
+- **base:** https://my-json-server.typicode.com/
+- **data:** 0renzo0loli0/learning-center-db
+- **URL:**  https://my-json-server.typicode.com/0renzo0loli0/learning-center-db
 
 ![](resources/2024-04-26_19-55-40.png)
 
