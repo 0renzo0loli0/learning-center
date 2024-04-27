@@ -64,6 +64,16 @@
 - [Actualizamos el "README.md"](#actualizamos-el-readmemd)
   - [Actualizamos "README.md"](#actualizamos-readmemd)
   - [Realizamos un commit](#realizamos-un-commit-10)
+- [Desplegamos nuestro json-server](#desplegamos-nuestro-json-server)
+  - [Creamos un repositorio publico](#creamos-un-repositorio-publico)
+  - [Cargamos el archivo "db.json" al repositorio](#cargamos-el-archivo-dbjson-al-repositorio)
+  - [Generamos el commit](#generamos-el-commit)
+  - [Tengamos en cuenta el nombre del usuario y del repo](#tengamos-en-cuenta-el-nombre-del-usuario-y-del-repo)
+  - [Generamos el url para desplegar nuestra base de datos](#generamos-el-url-para-desplegar-nuestra-base-de-datos)
+  - [Volvemos a nuestro proyecto y actualizamos nuestro endpoint en ".env.production"](#volvemos-a-nuestro-proyecto-y-actualizamos-nuestro-endpoint-en-envproduction)
+- [Exportamos previo al despliegue](#exportamos-previo-al-despliegue)
+  - [Actualizamos ".env.production"](#actualizamos-envproduction)
+  - [Realizamos un build](#realizamos-un-build)
 - [Anexos](#anexos)
   - [Home](#home)
   - [About](#about)
@@ -1373,6 +1383,63 @@ git commit -m "docs: updated documentation."
 
 ![](resources/2024-04-24_21-35-35.png)
 ![](resources/2024-04-24_21-35-48.png)
+
+# Desplegamos nuestro json-server
+
+## Creamos un repositorio publico
+
+![](resources/2024-04-26_19-44-47.png)
+![](resources/2024-04-26_19-45-05.png)
+![](resources/2024-04-26_19-45-17.png)
+
+## Cargamos el archivo "db.json" al repositorio
+
+![](resources/2024-04-26_19-47-32.png)
+![](resources/2024-04-26_19-48-38.png)
+![](resources/2024-04-26_19-50-03.png)
+
+## Generamos el commit
+
+![](resources/2024-04-26_19-52-10.png)
+![](resources/2024-04-26_19-52-25.png)
+
+## Tengamos en cuenta el nombre del usuario y del repo
+
+**Ejemplo: ** 0renzo0loli0/learning-center-db
+-- Este sera el url para los proximos pasos
+
+## Generamos el url para desplegar nuestra base de datos
+
+** base: ** https://my-json-server.typicode.com/
+** data: ** 0renzo0loli0/learning-center-db
+** URL: **  https://my-json-server.typicode.com/0renzo0loli0/learning-center-db
+
+![](resources/2024-04-26_19-55-40.png)
+
+
+-- Como se ve tenemos nuetro link para la base de datos completa "db"
+-- y para el "tutorials"
+
+![](resources/2024-04-26_19-56-42.png)
+
+## Volvemos a nuestro proyecto y actualizamos nuestro endpoint en ".env.production"
+
+``` bash
+VITE_API_BASE_URL="https://my-json-server.typicode.com/0renzo0loli0/learning-center-db"
+```
+
+![](resources/2024-04-26_20-00-26.png)
+
+# Exportamos previo al despliegue
+
+## Actualizamos ".env.production"
+
+## Realizamos un build
+
+``` bash
+npm run build
+``` 
+
 
 # Anexos
 
