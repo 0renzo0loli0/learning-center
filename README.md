@@ -71,9 +71,21 @@
   - [Tengamos en cuenta el nombre del usuario y del repo](#tengamos-en-cuenta-el-nombre-del-usuario-y-del-repo)
   - [Generamos el url para desplegar nuestra base de datos](#generamos-el-url-para-desplegar-nuestra-base-de-datos)
   - [Volvemos a nuestro proyecto y actualizamos nuestro endpoint en ".env.production"](#volvemos-a-nuestro-proyecto-y-actualizamos-nuestro-endpoint-en-envproduction)
+  - [Realizamos un commit](#realizamos-un-commit-11)
 - [Exportamos previo al despliegue](#exportamos-previo-al-despliegue)
-  - [Actualizamos ".env.production"](#actualizamos-envproduction)
   - [Realizamos un build](#realizamos-un-build)
+  - [Instalamos "serve" para probar el build realizado](#instalamos-serve-para-probar-el-build-realizado)
+  - [Ejecutamos "serve" con nuestro directorio "dist" generado](#ejecutamos-serve-con-nuestro-directorio-dist-generado)
+- [Desplegando en firebase](#desplegando-en-firebase)
+  - [Nos registramos en firebase](#nos-registramos-en-firebase)
+  - [Instalamos "firebase-tools" para registrar nuestro proyecto](#instalamos-firebase-tools-para-registrar-nuestro-proyecto)
+  - [Nos aseguramos de estar logueados](#nos-aseguramos-de-estar-logueados)
+  - [Inicializamos firebase en nuestro proyecto](#inicializamos-firebase-en-nuestro-proyecto)
+  - [Configuramos en orden](#configuramos-en-orden)
+  - [Actualizamos nuestro firebase.json generado](#actualizamos-nuestro-firebasejson-generado)
+  - [Realizamos el deploy](#realizamos-el-deploy)
+  - [Actualizamos nuestro ".gitignore" para firebase](#actualizamos-nuestro-gitignore-para-firebase)
+  - [Realizamos un commit](#realizamos-un-commit-12)
 - [Anexos](#anexos)
   - [Home](#home)
   - [About](#about)
@@ -1430,9 +1442,16 @@ VITE_API_BASE_URL="https://my-json-server.typicode.com/0renzo0loli0/learning-cen
 
 ![](resources/2024-04-26_20-00-26.png)
 
-# Exportamos previo al despliegue
+## Realizamos un commit
 
-## Actualizamos ".env.production"
+``` bash
+git add .
+git commit -m "feat(production): updated env production baseurl"
+```
+
+![](resources/2024-04-26_20-02-20.png)
+
+# Exportamos previo al despliegue
 
 ## Realizamos un build
 
@@ -1440,6 +1459,145 @@ VITE_API_BASE_URL="https://my-json-server.typicode.com/0renzo0loli0/learning-cen
 npm run build
 ``` 
 
+![](resources/2024-04-26_20-03-37.png)
+
+## Instalamos "serve" para probar el build realizado
+
+``` bash
+npm install -g serve
+``` 
+
+![](resources/2024-04-26_20-05-11.png)
+
+## Ejecutamos "serve" con nuestro directorio "dist" generado
+
+``` bash
+serve -s dist
+```
+
+![](resources/2024-04-26_20-06-09.png)
+![](resources/2024-04-26_20-06-16.png)
+
+# Desplegando en firebase
+
+## Nos registramos en firebase 
+
+[Firebase](https://firebase.google.com/)
+
+## Instalamos "firebase-tools" para registrar nuestro proyecto
+
+``` bash
+npm install -g firebase-tools
+```
+
+![](resources/2024-04-26_20-13-17.png)
+
+## Nos aseguramos de estar logueados
+
+``` bash
+firebase logout
+firebase login
+```
+
+![](resources/2024-04-26_20-14-07.png)
+
+-- De preferencia escribimos "n" cuando nos consulte recopilar informacion
+
+![](resources/2024-04-26_20-15-11.png)
+
+-- Validamos nuestro usuario y concedemos los permisos
+
+1) Elegimos nuestra cuenta cuando abra nuestro navegador 
+2) Le damos continuar 
+3) Le damos Permitir
+
+![](resources/2024-04-26_20-16-46.png)
+![](resources/2024-04-26_20-18-38.png)
+
+## Inicializamos firebase en nuestro proyecto
+
+``` bash
+firebase init
+```
+
+![](resources/2024-04-26_20-20-34.png)
+
+## Configuramos en orden
+
+1) proceed "Y"
+![](resources/2024-04-26_20-23-12.png)
+
+2)  Solo seleccionamos "Hosting: Configure files for Firebase Hosting and (optionally) set up GitHub Action deploys"
+![](resources/2024-04-26_20-23-04.png)
+
+3) Seleccionamos "Create a new project"
+![](resources/2024-04-26_20-23-58.png)
+
+4) Le damos un ID unico
+![](resources/2024-04-26_20-34-11.png)
+
+5) Damos enter para que el id sea el mismo que el nombre del proyecto
+![](resources/2024-04-26_20-34-35.png)
+
+6) Le decimos que "dist" sera nuestra carpeta a distribuir
+![](resources/2024-04-26_20-35-44.png)
+
+7) Escribimos "n"
+![](resources/2024-04-26_20-38-08.png)
+
+8) Escribimos "n"
+![](resources/2024-04-26_20-38-22.png)
+
+9) Escribimos "n"
+![](resources/2024-04-26_20-39-21.png)
+
+10) Finalizado
+![](resources/2024-04-26_20-39-34.png)
+
+## Actualizamos nuestro firebase.json generado
+
+``` json
+{
+  "hosting": {
+    "public": "dist",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  },
+
+  "rewrites": [
+    {
+      "source": "**",
+      "destination": "/index.html"
+    }
+  ]
+}
+```
+
+![](resources/2024-04-26_20-44-16.png)
+
+## Realizamos el deploy
+
+``` bash
+firebase deploy --only hosting
+```
+
+![](resources/2024-04-26_20-45-20.png)
+
+## Actualizamos nuestro ".gitignore" para firebase
+
+-- Añadimos el siguiente codigo
+
+```bash
+# Firebase cache
+.firebase/
+```
+
+![](resources/2024-04-26_20-48-54.png)
+
+## Realizamos un commit
 
 # Anexos
 
