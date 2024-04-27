@@ -1608,7 +1608,7 @@ git commit -m "feat(gitignore): updated gitignore for firebase"
 
 ## Visualizamos nuestro deploy
 
-[Deploy](https://learningcentersi730.web.app/home)
+[Deploy](https://learningcentersi730.web.app)
 
 # Anexos
 
